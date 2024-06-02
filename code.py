@@ -31,3 +31,52 @@ def f_aptidao(df_gene, capacidade):
     aptidao = podenracao*(valor + peso) # Quanto maior o resultado, mais apto ele será 
     # Aptidão: maximar o valor e verifica se o peso atende capacidade máxima 
     return aptidao
+
+# Realiza a mutação
+def f_mutacao(df_gene, df_mochileiro):
+    linha = np.random.randint(0, df_gene.shape[0]) # Seleciona-se a linha que sofrerá mutação, somente uma única linha que será mutada
+    mutacao = df_mochileiro.sample(n = 1) # Seleciona-se o gene mutação
+    df_gene.iloc[linha] = mutacao # Realiza-se a mutação
+    df_gene = df_gene.drop_duplicates() # Remove-se duplicadas ??????????????? criar função pra selecionar a mutacao que nao esteja no df a ser mutacionado
+    return df_gene
+  
+# Algoritmo genético
+def algoritmo_genetico(df_mochileiro, capacidade):
+    # Gera a população inicial
+    populacao = [f_aleatorio(df_mochileiro) for _ in range(50)] # n números da população inicial
+    
+    for _ in range(100):  # n números de gerações
+        # Avalia a aptidão da população
+        aptidao_populacao = [f_aptidao(df_gene = x, capacidade = capacidade) for x in populacao] # Calcula a aptidão de cada seleção de itens na população atual
+
+        # Seleciona os pais por torneio
+        parentes = random.choices(populacao, weights = aptidao_populacao, k = 100) # A função random.choices é usada para selecionar aleatoriamente 20 pais da população atual. A probabilidade de um indivíduo ser escolhido como pai é proporcional à sua aptidão. Isso significa que os indivíduos com maior aptidão têm uma maior probabilidade de serem escolhidos como pais.
+        
+        # Gera a próxima geração por crossover e mutação
+        nova_geracao = [f_mutacao(df_gene = f_crossover(random.choice(parentes), random.choice(parentes)), df_mochileiro = df_mochileiro) for _ in range(50)]
+
+        # Substitui a população atual pela próxima geração
+        populacao = nova_geracao
+    
+
+    f_aptidao_fixando_capacidade = partial(f_aptidao, capacidade = capacidade) # Fixa-se  a capacidade da função apitdão
+    resultado = max(populacao, key = f_aptidao_fixando_capacidade) # Implementa na última geração
+
+    # Retorna o melhor indivíduo da última geração
+    return resultado
+  
+# Aplicação
+
+# Dados dos itens, valores e peso
+dado = {'Item': [1, 2, 3, 4, 5],
+        'Valor': [4, 2, 1, 2, 10],
+        'Peso': [12, 2, 1, 1, 4]}
+ 
+# Criando data frame
+df = pd.DataFrame(dado)
+
+# Atribuição do peso máximo a ser carregado na mochila
+capacidade_max = 15
+
+resultado = algoritmo_genetico(df_mochileiro = df, capacidade = capacidade_max)
+print(resultado)
