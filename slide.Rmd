@@ -16,13 +16,22 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 
+# Para utilizar python
 library(reticulate)
+use_condaenv("r-reticulate", required = TRUE)
 
 ```
 
 ---
 
-# Hello World
+# Caracteristicas deste Algoritmo Genético
+
+- Quem é o individuo? ** A mochila**
+
+
+---
+
+# Bibliotecas utilizadas
 
 ```{python, engine='python'}
 
@@ -32,4 +41,78 @@ import random
 from functools import partial
 
 ```
---
+---
+
+# Função objetivo
+
+```{python, engine='python'}
+def f_objetivo(df):
+    valor_total = df['Valor'].sum() # Valor total do gene do indivíduo
+    peso_total = df['Peso'].sum() # Peso total do gene do indivíduo  
+    return valor_total, peso_total
+```
+
+---
+
+# Geração de gene do indivíduo aleatório
+
+```{python, engine='python'}
+def f_aleatorio(df):
+    n_aleatorio = np.random.randint(1, df.shape[0]+1) # Quantidade dos genes a serem escolhidos
+    df_aleatorio = df.sample(n = n_aleatorio) # Gera o gene do individuo 
+    return df_aleatorio
+```
+
+---
+
+# Função aptidão
+
+```{python, engine='python'}
+def f_aptidao(df_gene, capacidade): 
+    valor = f_objetivo(df_gene)[0] # Valor total do indivíduo
+    peso = f_objetivo(df_gene)[1] # Peso total do individuo
+
+    # Ponderação que avalia se a escolha atende a capacidade máxima ou não
+    if peso <= capacidade:
+        podenracao = 1 # Se a escolha dos itens pesa igual ou menos que 15, o valor será 1
+    else:
+        podenracao = 0 # Se a escolha dos itens pesa mais que 15, o valor será 0
+
+    aptidao = podenracao*(valor + peso) # Quanto maior o resultado, mais apto ele será 
+    # Aptidão: maximar o valor e verifica se o peso atende capacidade máxima 
+    return aptidao
+```
+
+---
+
+# Crossover
+
+```{python, engine='python'}
+def f_crossover(df_pai_1, df_pai_2): # Crossover do pai 1 (df_x) e pai 2 (df_y)
+    df_gene_pai_1_aleatorio = f_aleatorio(df_pai_1) # Coleta uma parte do gene do pai 1
+    df_gene_pai_2_aleatorio = f_aleatorio(df_pai_2) # Coleta uma parte do gene do pai 2
+    df_concat = pd.concat([df_gene_pai_1_aleatorio, df_gene_pai_2_aleatorio]) # Concatena as partes dos pais
+    df_gene_filho = df_concat.drop_duplicates() # Remove-se linhas duplicadas
+    return df_gene_filho # Retorna o filho
+```
+
+---
+
+# Realiza a mutação
+
+```{python, engine='python'}
+def f_mutacao(df_gene, df_mochileiro):
+    linha = np.random.randint(0, df_gene.shape[0]) # Seleciona-se a linha que sofrerá mutação, somente uma única linha que será mutada
+    mutacao = df_mochileiro.sample(n = 1) # Seleciona-se o gene mutação
+    df_gene.iloc[linha] = mutacao # Realiza-se a mutação
+    df_gene = df_gene.drop_duplicates() # Remove-se duplicadas ??????????????? criar função pra selecionar a mutacao que nao esteja no df a ser mutacionado
+    return df_gene
+```
+---
+
+
+
+
+
+
+

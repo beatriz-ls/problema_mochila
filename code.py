@@ -31,6 +31,14 @@ def f_aptidao(df_gene, capacidade):
     aptidao = podenracao*(valor + peso) # Quanto maior o resultado, mais apto ele será 
     # Aptidão: maximar o valor e verifica se o peso atende capacidade máxima 
     return aptidao
+  
+# Realiza o crossover
+def f_crossover(df_pai_1, df_pai_2): # Crossover do pai 1 (df_x) e pai 2 (df_y)
+    df_gene_pai_1_aleatorio = f_aleatorio(df_pai_1) # Coleta uma parte do gene do pai 1
+    df_gene_pai_2_aleatorio = f_aleatorio(df_pai_2) # Coleta uma parte do gene do pai 2
+    df_concat = pd.concat([df_gene_pai_1_aleatorio, df_gene_pai_2_aleatorio]) # Concatena as partes dos pais
+    df_gene_filho = df_concat.drop_duplicates() # Remove-se linhas duplicadas
+    return df_gene_filho # Retorna o filho
 
 # Realiza a mutação
 def f_mutacao(df_gene, df_mochileiro):
