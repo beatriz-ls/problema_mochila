@@ -1,7 +1,7 @@
 ---
 title: "Problema da Mochila"
 subtitle: "Uma solução com Python"
-author: "Beatriz Lima, Vitória Sezana e Matheus Monteiro"
+author: "Beatriz Lima, Vitória Sesana e Matheus Monteiro"
 #institute: ""
 date: "2024/02/06"
 output:
@@ -32,19 +32,19 @@ A proposta do problema da mochila é preencher uma mochila com objeto de diferen
 
 #  O Problema da Mochila como um Algoritmo Genético
 
-- **O que é o individuo?** Uma solução candidata para o problema, ou seja, uma combinação de objetos que podem ser colocados na mochila.
+- **O que é o individuo?** É uma solução candidata para o problema, ou seja, uma combinação de objetos que podem ser colocados na mochila.
 
 - **O que é o gene do individuo?** São os itens escolhidos pelo mochileiro, sendo que cada item possui seu valor e peso.
 
-- **O que é a população?** São N quantidades de individuos, assim, N possiveis combinações.
+- **O que é a população?** É o conjunto de N mochilas (indivíduos) geradas aleatóriamente. Sendo assim,  temos N possiveis combinações.
 
 - **Função objetivo:** Maximizar o valor total dos itens da mochila.
 
-- **Função aptidão:** Verifica se o individuo está próximo do objetivo, ou seja, se o valor total dos objetos é alto e simultânemente respeita a capacidade.
+- **Função aptidão:** Verifica se o indivíduo está próximo do objetivo, ou seja, se o valor total dos objetos é alto e simultânemente respeita a capacidade.
 
 - **Função crossover:** Gera o filho, ou seja, seleciona configurações de itens para a mochila
 
-- **Função mutação:** Adcionar ou remover algum item aleatório na mochila.
+- **Função mutação:** Adicionar ou remover algum item aleatório na mochila.
 
 ---
 
@@ -78,6 +78,8 @@ def f_aleatorio(df):
     df_aleatorio = df.sample(n = n_aleatorio)
     return df_aleatorio
 ```
+
+---
 
 # Função aptidão
 
