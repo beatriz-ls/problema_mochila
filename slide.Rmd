@@ -32,9 +32,9 @@ A proposta do problema da mochila é preencher uma mochila com objeto de diferen
 
 #  O Problema da Mochila como um Algoritmo Genético
 
-- **O que é o individuo?** É uma solução candidata para o problema, ou seja, uma combinação de objetos que podem ser colocados na mochila.
+- **O que é o indivíduo?** É uma solução candidata para o problema, ou seja, uma combinação de objetos que podem ser colocados na mochila.
 
-- **O que é o gene do individuo?** São os itens escolhidos pelo mochileiro, sendo que cada item possui seu valor e peso.
+- **O que é o gene do indivíduo?** São os itens escolhidos pelo mochileiro, sendo que cada item possui seu valor e peso.
 
 - **O que é a população?** É o conjunto de N mochilas (indivíduos) geradas aleatóriamente. Sendo assim,  temos N possiveis combinações.
 
@@ -61,6 +61,7 @@ from functools import partial
 
 # Função objetivo
 
+
 ```{python, engine='python'}
 def f_objetivo(df):
     valor_total = df['Valor'].sum()
@@ -70,7 +71,7 @@ def f_objetivo(df):
 
 ---
 
-# Geração de gene do indivíduo aleatório
+# Geração do gene do indivíduo aleatório e função aptidão
 
 ```{python, engine='python'}
 def f_aleatorio(df):
@@ -78,10 +79,6 @@ def f_aleatorio(df):
     df_aleatorio = df.sample(n = n_aleatorio)
     return df_aleatorio
 ```
-
----
-
-# Função aptidão
 
 ```{python, engine='python'}
 def f_aptidao(df_gene, capacidade): 
@@ -98,6 +95,25 @@ def f_aptidao(df_gene, capacidade):
 ```
 
 ---
+ 
+# Exemplificando f_aleatorio e f_aptidao
+
+Considere $\text{mochila}_i$ e $\text{mochila}_j$ como os indivíduos que <tt> f_aleatorio </tt> gerou. Ao aplicar <tt> f_aptidao </tt> nesses dois indivíduos obtemos sua aptidão:
+
+$$\text{mochila}_i=\left[ \begin{matrix} 
+1 & 12 & 4 \\
+2 & 2 & 2 \\
+3 & 1 & 1 \\ \end{matrix} \right] \Rightarrow f_{\text{apt}}=21 \text{,}$$
+
+$$\text{mochila}_j= \left[ \begin{matrix}
+3 & 1 & 1 \\
+4 & 1 & 2 \\
+5 & 4 & 10 \\
+2 & 2 & 2 \\ \end{matrix} \right] \Rightarrow f_{\text{apt}}=23 \text{.}$$
+
+O próximo passo será fazer o Crossover.
+
+---
 
 # Crossover
 
@@ -105,11 +121,38 @@ def f_aptidao(df_gene, capacidade):
 def f_crossover(df_pai_1, df_pai_2):
     df_gene_pai_1_aleatorio = f_aleatorio(df_pai_1)
     df_gene_pai_2_aleatorio = f_aleatorio(df_pai_2)
-    df_concat = pd.concat([df_gene_pai_1_aleatorio,
-    df_gene_pai_2_aleatorio])
+    df_concat = pd.concat([df_gene_pai_1_aleatorio,df_gene_pai_2_aleatorio])
     df_gene_filho = df_concat.drop_duplicates()
     return df_gene_filho
 ```
+
+Considerando ainda a $\text{mochila}_i$ e a $\text{mochila}_j$, suponha que elas são os pais selecionados. Em <tt> df_gene_pai_1_aleatorio </tt> será selecionada uma parte aleatória do gene do pai 1 (mochila i), dada nesse caso por: 
+
+$$\text{parte do gene da mochila i}= \left[ \begin{matrix}
+2 & 2 & 2 \\
+3 & 1 & 1  \\ \end{matrix} \right] \text{,}$$
+
+Em <tt> df_gene_pai_2_aleatorio </tt> será selecionada uma parte aleatória do gene do pai 2 (mochila j), dada nesse caso por: 
+
+$$\text{parte do gene da mochila j}= \left[ \begin{matrix}
+3 & 1 & 1 \\
+4 & 1 & 2 \\
+5 & 4 & 10 \\ \end{matrix} \right] \text{.}$$
+
+---
+
+# Crossover
+
+Em <tt> df_concat </tt> será realizada a junção dos genes de cada pai. Em seguida, <tt> df_gene_filho </tt> realizará a exclusão das linhas repetidas. Após esse processo temos:
+$$\text{novo gene}= \left[ \begin{matrix}
+2 & 2 & 2 \\
+3 & 1 & 1 \\
+4 & 1 & 2 \\
+5 & 4 & 10 \\ \end{matrix} \right] \text{.}$$
+
+O próximo passo será fazer a mutação.
+
+---
 
 # Função para realizar a mutação
 
@@ -121,6 +164,22 @@ def f_mutacao(df_gene, df_mochileiro):
     df_gene = df_gene.drop_duplicates()
     return df_gene
 ```
+
+Supondo que a mutação ocorreu na linha 1...
+
+$$filho=f_{\text{mutação}}(\text{novo gene})= \left[ \begin{matrix} 
+4' & 1' & 2' \\
+3 & 1 & 1 \\
+4 & 1 & 2 \\
+5 & 4 & 10 \\ \end{matrix} \right] \text{.}$$
+
+Logo, 
+
+$$filho=\left[ \begin{matrix}
+4 & 1 & 2 \\
+3 & 1 & 1 \\
+5 & 4 & 10 \\ \end{matrix} \right]$$
+
 ---
 
 # Algoritmo genético
@@ -166,8 +225,6 @@ capacidade = capacidade_max)
 print(resultado)
 
 ```
-
-
 
 
 
