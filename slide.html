@@ -81,7 +81,7 @@ def f_objetivo(df):
 
 ---
 
-# Geração de gene do indivíduo aleatório
+# Geração do gene do indivíduo aleatório e função aptidão
 
 
 ```python
@@ -90,10 +90,6 @@ def f_aleatorio(df):
     df_aleatorio = df.sample(n = n_aleatorio)
     return df_aleatorio
 ```
-
----
-
-# Função aptidão
 
 
 ```python
@@ -111,6 +107,25 @@ def f_aptidao(df_gene, capacidade):
 ```
 
 ---
+ 
+# Exemplificando f_aleatorio e f_aptidao
+
+Considere `\(\text{mochila}_i\)` e `\(\text{mochila}_j\)` como os indivíduos que &lt;tt&gt; f_aleatorio &lt;/tt&gt; gerou. Ao aplicar &lt;tt&gt; f_aptidao &lt;/tt&gt; nesses dois indivíduos obtemos sua aptidão:
+
+`$$\text{mochila}_i=\left[ \begin{matrix} 
+1 &amp; 12 &amp; 4 \\
+2 &amp; 2 &amp; 2 \\
+3 &amp; 1 &amp; 1 \\ \end{matrix} \right] \Rightarrow f_{\text{apt}}=21 \text{,}$$`
+
+`$$\text{mochila}_j= \left[ \begin{matrix}
+3 &amp; 1 &amp; 1 \\
+4 &amp; 1 &amp; 2 \\
+5 &amp; 4 &amp; 10 \\
+2 &amp; 2 &amp; 2 \\ \end{matrix} \right] \Rightarrow f_{\text{apt}}=23 \text{.}$$`
+
+O próximo passo será fazer o Crossover.
+
+---
 
 # Crossover
 
@@ -119,11 +134,38 @@ def f_aptidao(df_gene, capacidade):
 def f_crossover(df_pai_1, df_pai_2):
     df_gene_pai_1_aleatorio = f_aleatorio(df_pai_1)
     df_gene_pai_2_aleatorio = f_aleatorio(df_pai_2)
-    df_concat = pd.concat([df_gene_pai_1_aleatorio,
-    df_gene_pai_2_aleatorio])
+    df_concat = pd.concat([df_gene_pai_1_aleatorio,df_gene_pai_2_aleatorio])
     df_gene_filho = df_concat.drop_duplicates()
     return df_gene_filho
 ```
+
+Considerando ainda a `\(\text{mochila}_i\)` e a `\(\text{mochila}_j\)`, suponha que elas são os pais selecionados. Em &lt;tt&gt; df_gene_pai_1_aleatorio &lt;/tt&gt; será selecionada uma parte aleatória do gene do pai 1 (mochila i), dada nesse caso por: 
+
+`$$\text{parte do gene da mochila i}= \left[ \begin{matrix}
+2 &amp; 2 &amp; 2 \\
+3 &amp; 1 &amp; 1  \\ \end{matrix} \right] \text{,}$$`
+
+Em &lt;tt&gt; df_gene_pai_2_aleatorio &lt;/tt&gt; será selecionada uma parte aleatória do gene do pai 2 (mochila j), dada nesse caso por: 
+
+`$$\text{parte do gene da mochila j}= \left[ \begin{matrix}
+3 &amp; 1 &amp; 1 \\
+4 &amp; 1 &amp; 2 \\
+5 &amp; 4 &amp; 10 \\ \end{matrix} \right] \text{.}$$`
+
+---
+
+# Crossover
+
+Em &lt;tt&gt; df_concat &lt;/tt&gt; será realizada a junção dos genes de cada pai. Em seguida, &lt;tt&gt; df_gene_filho &lt;/tt&gt; realizará a exclusão das linhas repetidas. Após esse processo temos:
+`$$\text{novo gene}= \left[ \begin{matrix}
+2 &amp; 2 &amp; 2 \\
+3 &amp; 1 &amp; 1 \\
+4 &amp; 1 &amp; 2 \\
+5 &amp; 4 &amp; 10 \\ \end{matrix} \right] \text{.}$$`
+
+O próximo passo será fazer a mutação.
+
+---
 
 # Função para realizar a mutação
 
@@ -136,6 +178,22 @@ def f_mutacao(df_gene, df_mochileiro):
     df_gene = df_gene.drop_duplicates()
     return df_gene
 ```
+
+Supondo que a mutação ocorreu na linha 1...
+
+`$$filho=f_{\text{mutação}}(\text{novo gene})= \left[ \begin{matrix} 
+4' &amp; 1' &amp; 2' \\
+3 &amp; 1 &amp; 1 \\
+4 &amp; 1 &amp; 2 \\
+5 &amp; 4 &amp; 10 \\ \end{matrix} \right] \text{.}$$`
+
+Logo, 
+
+`$$filho=\left[ \begin{matrix}
+4 &amp; 1 &amp; 2 \\
+3 &amp; 1 &amp; 1 \\
+5 &amp; 4 &amp; 10 \\ \end{matrix} \right]$$`
+
 ---
 
 # Algoritmo genético
@@ -185,14 +243,10 @@ print(resultado)
 
 ```
 ##    Item  Valor  Peso
-## 0     1      4    12
-## 0     4      2     1
-## 0     2      2     2
+## 4     2      2     2
+## 4     4      2     1
+## 4     1      4    12
 ```
-
-
-
-
 
 
 
