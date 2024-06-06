@@ -3,7 +3,7 @@ title: "Problema da Mochila"
 subtitle: "Uma solução com Python"
 author: "Beatriz Lima, Vitória Sesana e Matheus Monteiro"
 #institute: ""
-date: "2024/02/06"
+date: "06/06/2024"
 output:
   xaringan::moon_reader:
     lib_dir: libs
