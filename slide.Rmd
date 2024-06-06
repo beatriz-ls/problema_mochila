@@ -111,7 +111,7 @@ def f_crossover(df_pai_1, df_pai_2):
     return df_gene_filho
 ```
 
-# Realiza a mutação
+# Função para realizar a mutação
 
 ```{python, engine='python'}
 def f_mutacao(df_gene, df_mochileiro):
