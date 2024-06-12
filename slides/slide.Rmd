@@ -1,9 +1,9 @@
 ---
-title: "Problema da Mochila"
-subtitle: "Uma solução com Python"
+title: "Resolução do Problema da Mochila"
+subtitle: "Uma aplicação do Algoritmo Genético desenvolvida em Python"
 author: "Beatriz Lima, Vitória Sesana e Matheus Monteiro"
 #institute: ""
-date: "06/06/2024"
+date: "Junho, 2024"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -17,8 +17,8 @@ output:
 options(htmltools.dir.version = FALSE)
 
 # Para utilizar python
-library(reticulate)
-use_condaenv("r-reticulate", required = TRUE)
+# library(reticulate)
+# use_condaenv("r-reticulate", required = TRUE)
 
 ```
 
@@ -51,7 +51,6 @@ A proposta do problema da mochila é preencher uma mochila com objeto de diferen
 # Bibliotecas utilizadas
 
 ```{python, engine='python'}
-
 import numpy as np
 import pandas as pd
 import random
@@ -223,7 +222,6 @@ capacidade_max = 15
 resultado = algoritmo_genetico(df_mochileiro = df,
 capacidade = capacidade_max)
 print(resultado)
-
 ```
 
 

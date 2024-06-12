@@ -4,7 +4,6 @@
     <title>Problema da Mochila</title>
     <meta charset="utf-8" />
     <meta name="author" content="Beatriz Lima, Vitória Sesana e Matheus Monteiro" />
-    <meta name="date" content="2024-06-06" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -17,13 +16,13 @@ class: center, middle, inverse, title-slide
 # Problema da Mochila
 ]
 .subtitle[
-## Uma solução com Python
+## Aplicação do Algoritmo Genético desenvolvida em Python
 ]
 .author[
 ### Beatriz Lima, Vitória Sesana e Matheus Monteiro
 ]
 .date[
-### 06/06/2024
+### Junho, 2024
 ]
 
 ---
@@ -33,7 +32,7 @@ class: center, middle, inverse, title-slide
 
 # Apresentando o Problema
 
-A proposta do problema da mochila é preencher uma mochila com objetos de diferentes valores e pesos de tal forma que a soma dos valores dos objetos escolhidos seja a maior possível, sem ultrapassar o peso mínimo da mochila.
+A proposta do problema da mochila é preencher uma mochila com objeto de diferentes valores e pesos de tal forma que a soma dos valores dos objetos escolhidos seja a maior possivel, sem ultrapassar o peso minimo da mochila.
 
 ![Imagem Ilustrativa](imagem ilustrativa.png)
 
@@ -45,15 +44,15 @@ A proposta do problema da mochila é preencher uma mochila com objetos de difere
 
 - **O que é o gene do indivíduo?** São os itens escolhidos pelo mochileiro, sendo que cada item possui seu valor e peso.
 
-- **O que é a população?** É o conjunto de N mochilas (indivíduos) geradas aleatóriamente. Sendo assim,  temos N possíveis combinações.
+- **O que é a população?** É o conjunto de N mochilas (indivíduos) geradas aleatóriamente. Sendo assim,  temos N possiveis combinações.
 
-- **Função objetivo:** Maximiza o valor total dos itens da mochila.
+- **Função objetivo:** Maximizar o valor total dos itens da mochila.
 
 - **Função aptidão:** Verifica se o indivíduo está próximo do objetivo, ou seja, se o valor total dos objetos é alto e simultânemente respeita a capacidade.
 
 - **Função crossover:** Gera o filho, ou seja, seleciona configurações de itens para a mochila
 
-- **Função mutação:** Adiciona ou remove algum item aleatório na mochila.
+- **Função mutação:** Adicionar ou remover algum item aleatório na mochila.
 
 ---
 
@@ -192,7 +191,7 @@ Logo,
 `$$filho=\left[ \begin{matrix}
 4 &amp; 1 &amp; 2 \\
 3 &amp; 1 &amp; 1 \\
-5 &amp; 4 &amp; 10 \\ \end{matrix} \right] \text{.}$$`
+5 &amp; 4 &amp; 10 \\ \end{matrix} \right]$$`
 
 ---
 
@@ -243,9 +242,10 @@ print(resultado)
 
 ```
 ##    Item  Valor  Peso
-## 3     2      2     2
-## 3     1      4    12
-## 3     4      2     1
+## 2     5     10     4
+## 2     2      2     2
+## 2     3      1     1
+## 2     4      2     1
 ```
 
 
